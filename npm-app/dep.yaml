@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: npm-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: npm-app
+  template:
+    metadata:
+      name: npm-app
+      labels:
+        app: npm-app
+    spec:
+      containers:
+      - image: ajitkumar1976/npm-demo:v4
+        imagePullPolicy: Always
+        name: npm-app
+        resources:
+          requests:
+            cpu: "40m"
+            memory: "20Mi"
+          limits:
+            cpu: "50m"
+            memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: npm-app
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: npm-app
